@@ -1,0 +1,4 @@
+Django
+environs
+psycopg2
+python-dotenv

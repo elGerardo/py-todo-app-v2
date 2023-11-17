@@ -1,14 +1,13 @@
 FROM python:3.9
 
-RUN apt-get update && apt-get install -y libgdal-dev
+WORKDIR /home/node/app
 
-WORKDIR /app
+COPY . .
 
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY . .
 
 EXPOSE 80
 
