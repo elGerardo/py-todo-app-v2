@@ -35,7 +35,7 @@ __pycache__/
 app/managements/commands/*.geojson
 app/managements/commands/*.txt
 env/
-mysite/env/
+todoapp/env/
 build/
 develop-eggs/
 dist/
@@ -89,4 +89,4 @@ local_settings.py
 .env
 db.sqlite3
 
-env/
+venv
