@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
+
+def live(_):
+    return JsonResponse({'service': 'ToDo', 'version': 1}, status=200)
 
 urlpatterns = [
+    path('todo/live', live),
     path('', include('user.urls')),
 ]
+

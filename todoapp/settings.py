@@ -49,17 +49,22 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt'
 ]
 
+AUTH_USER_MODEL = 'user.User'
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (   
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
 
+SIMPLE_JWT = {
+    'ALGORITHM': 'HS256',
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -141,3 +146,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "Content-Type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
+
+AUTH_HEADER_NAME = [
+    'Authorization'
+]
