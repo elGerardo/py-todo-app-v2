@@ -10,7 +10,7 @@ class User(DefaultModelsField):
     first_name = models.CharField(max_length=255, null=False, editable=True)
     last_name = models.CharField(max_length=255, null=False, editable=True)
     is_active = models.BooleanField(default=True, editable=True)
-    is_authenticated = models.BooleanField(default=False, editable=True)
+    is_authenticated = models.BooleanField(default=True, editable=True)
     password = models.CharField(max_length=255, null=False, editable=True)
 
     REQUIRED_FIELDS = []

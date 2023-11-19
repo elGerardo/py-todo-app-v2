@@ -24,5 +24,6 @@ def live(_):
 urlpatterns = [
     path('todo/live', live),
     path('', include('user.urls')),
+    path('', include('task.urls')),
 ]
 

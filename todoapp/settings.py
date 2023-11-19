@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv, find_dotenv
 from environs import Env
+from datetime import timedelta
 
 env = Env()
 load_dotenv(find_dotenv())
@@ -59,6 +60,8 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 MIDDLEWARE = [
