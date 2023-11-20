@@ -14,18 +14,24 @@ class Task_ApiView(APIView):
 
     def post(self, request):
         token = GetAccessToken(request.headers.get("Authorization", None))
-        body = {**request.data, "user_id": token.access_token["user_id"]}
+        body = {**request.data, "user": token.access_token["user_id"]}
 
-        serializer = TaskSerializer(data=body)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        step_fields = None
+        if 'steps' in body:
+            step_fields = body['steps']
+
+        task_serializer = TaskSerializer(data=body, step_fields=step_fields)
+        if task_serializer.is_valid():
+            task = task_serializer.save()
+            if isinstance(task, Task) == False:
+                return Response(task, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+            return Response(task_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(task_serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     def get(self, request):
         token = GetAccessToken(request.headers.get("Authorization", None))
-        task = Task.objects.filter(user_id=token.access_token["user_id"])
-        serializer = TaskSerializer(task, many=True)
+        tasks = Task.objects.filter(user=token.access_token["user_id"])
+        serializer = TaskSerializer(tasks, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 class Task_ApiView_Detail(APIView):
@@ -41,7 +47,7 @@ class Task_ApiView_Detail(APIView):
     def put(self, request, task_id):
         token = GetAccessToken(request.headers.get("Authorization", None))
         task = get_object_or_404(Task, id=task_id)
-        body = {**request.data, "user_id": token.access_token["user_id"]}
+        body = {**request.data, "user": token.access_token["user_id"]}
         serializer = TaskSerializer(task, data=body)
         if serializer.is_valid():
             serializer.save()

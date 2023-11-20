@@ -35,3 +35,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.password = make_password(validated_data.get("password"))
         instance.save()
         return instance
+
+
+#TODO validate unique username
