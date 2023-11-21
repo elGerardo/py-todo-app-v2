@@ -21,7 +21,7 @@ class Step_ApiView_Detail(APIView):
         body = {**request.data, "task": task.id, "id": step.id}
 
         serializer = StepSerializer(step, data=body)
-        if serializer.save():
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)

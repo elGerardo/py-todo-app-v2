@@ -43,6 +43,7 @@ class StepSerializer(serializers.ModelSerializer):
         instance.description = validated_data.get("description")
         instance.color = validated_data.get("color")
         instance.order = validated_data.get("order")
-        instance.status = validated_data.get("status")
+        if 'status' in validated_data:
+            instance.status = validated_data.get("status")
         instance.save()
         return instance
