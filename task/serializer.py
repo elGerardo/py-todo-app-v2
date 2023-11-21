@@ -31,21 +31,21 @@ class TaskSerializer(serializers.ModelSerializer):
         representation['user_id'] = representation.pop('user')
         return representation
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> Task or list:
         with transaction.atomic():
             has_errors = "False"
             step_serializer_errors = []
 
             task = Task(
-                user=validated_data["user"],
-                title=validated_data["title"],
-                description=validated_data["description"],
-                color=validated_data["color"],
-                type=validated_data["type"],
+                user=validated_data.get("user"),
+                title=validated_data.get("title"),
+                description=validated_data.get("description"),
+                color=validated_data.get("color"),
+                type=validated_data.get("type"),
             )
 
             if 'status' in validated_data:
-                task.status = validated_data["status"]
+                task.status = validated_data.get("status")
 
             task.save()
 
@@ -64,6 +64,16 @@ class TaskSerializer(serializers.ModelSerializer):
                 return step_serializer_errors
 
             return task
+        
+    def update(self, instance: Task, validated_data: object)-> Task:
+        instance.user = validated_data.get("user")
+        instance.title = validated_data.get("title")
+        instance.description = validated_data.get("description")
+        instance.color = validated_data.get("color")
+        instance.type = validated_data.get("type")
+        instance.status = validated_data.get("status")
+        instance.save()
+        return instance
     
 #TODO validate the status
 # NOT_STARTED, IN_PROGRESS, FINISHED

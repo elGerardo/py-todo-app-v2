@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
             "is_deleted",
         ]
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> User:
         user = User(
             username=validated_data.get("username"),
             first_name=validated_data.get("first_name"),
@@ -28,7 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-    def update(self, instance, validated_data):
+    def update(self, instance: User, validated_data: dict) -> User:
         instance.username = validated_data.get("username")
         instance.first_name = validated_data.get("first_name")
         instance.last_name = validated_data.get("last_name")
@@ -37,4 +37,4 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
-#TODO validate unique username
+# TODO validate unique username

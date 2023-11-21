@@ -22,7 +22,7 @@ class StepSerializer(serializers.ModelSerializer):
         representation['task_id'] = representation.pop('task')
         return representation
     
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> Step:
         step = Step(
             task = validated_data.get('task'),
             title = validated_data.get('title'),
@@ -31,5 +31,18 @@ class StepSerializer(serializers.ModelSerializer):
             order = validated_data.get('order')
         )
 
+        if 'status' in validated_data:
+            step.status = validated_data.get('status')
+
         step.save()
         return step
+    
+    def update(self, instance: Step, validated_data: dict) -> Step:
+        instance.task = validated_data.get("task")
+        instance.title = validated_data.get("title")
+        instance.description = validated_data.get("description")
+        instance.color = validated_data.get("color")
+        instance.order = validated_data.get("order")
+        instance.status = validated_data.get("status")
+        instance.save()
+        return instance
