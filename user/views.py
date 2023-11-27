@@ -25,8 +25,7 @@ class User_ApiView(APIView):
 class User_ApiView_Details(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, user_id):
-        token = GetAccessToken(request.headers.get("Authorization", None))
-        
+        GetAccessToken(request.headers.get("Authorization", None))
         user = get_object_or_404(User, id=user_id)
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -44,7 +43,8 @@ class User_ApiView_Details(APIView):
     @api_view(["POST"])
     def login(request):
         user = get_object_or_404(User, username=request.data.get("username"))
+        serializer = UserSerializer(user)
         if check_password(request.data.get("password", None), user.password):
             refresh = RefreshToken.for_user(user)
-            return JsonResponse({"refresh": (str(refresh)), 'access': str(refresh.access_token)}, status=201)
+            return JsonResponse({"user": serializer.data, "refresh": (str(refresh)), 'access': str(refresh.access_token)}, status=201)
         return JsonResponse({"message": "Username or Password Incorrect"}, status=401)

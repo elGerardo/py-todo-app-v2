@@ -7,8 +7,6 @@ from todoapp.helpers.default_models_field import DefaultModelsField
 class User(DefaultModelsField):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = models.CharField(unique=True, max_length=255, null=False, editable=True)
-    first_name = models.CharField(max_length=255, null=False, editable=True)
-    last_name = models.CharField(max_length=255, null=False, editable=True)
     is_active = models.BooleanField(default=True, editable=True)
     is_authenticated = models.BooleanField(default=True, editable=True)
     password = models.CharField(max_length=255, null=False, editable=True)
