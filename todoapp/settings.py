@@ -61,8 +61,8 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=360),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=360),
 }
 
 MIDDLEWARE = [
