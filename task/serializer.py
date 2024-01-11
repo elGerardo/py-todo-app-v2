@@ -39,13 +39,15 @@ class TaskSerializer(serializers.ModelSerializer):
             task = Task(
                 user=validated_data.get("user"),
                 title=validated_data.get("title"),
-                description=validated_data.get("description"),
                 color=validated_data.get("color"),
                 type=validated_data.get("type"),
             )
 
             if 'status' in validated_data:
                 task.status = validated_data.get("status")
+
+            if 'description' in validated_data:
+                task.description = validated_data.get("description")
 
             task.save()
 
@@ -68,10 +70,14 @@ class TaskSerializer(serializers.ModelSerializer):
     def update(self, instance: Task, validated_data: object)-> Task:
         instance.user = validated_data.get("user")
         instance.title = validated_data.get("title")
-        instance.description = validated_data.get("description")
+
         instance.color = validated_data.get("color")
         instance.type = validated_data.get("type")
         instance.status = validated_data.get("status")
+        
+        if 'description' in validated_data:  
+            instance.status = validated_data.get("description")
+        
         instance.save()
         return instance
     

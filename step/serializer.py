@@ -26,10 +26,12 @@ class StepSerializer(serializers.ModelSerializer):
         step = Step(
             task = validated_data.get('task'),
             title = validated_data.get('title'),
-            description = validated_data.get('description'),
             color = validated_data.get('color'),
             order = validated_data.get('order')
         )
+
+        if 'description' in validated_data:
+            step.description = validated_data.get('description')
 
         if 'status' in validated_data:
             step.status = validated_data.get('status')
@@ -40,10 +42,14 @@ class StepSerializer(serializers.ModelSerializer):
     def update(self, instance: Step, validated_data: dict) -> Step:
         instance.task = validated_data.get("task")
         instance.title = validated_data.get("title")
-        instance.description = validated_data.get("description")
         instance.color = validated_data.get("color")
         instance.order = validated_data.get("order")
+
         if 'status' in validated_data:
             instance.status = validated_data.get("status")
+
+        if 'description' in validated_data:  
+            instance.description = validated_data.get("description")
+        
         instance.save()
         return instance
