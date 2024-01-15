@@ -29,8 +29,15 @@ class Task_ApiView(APIView):
         return Response(task_serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     def get(self, request):
+        search = request.GET.get('search', None)
+        
         token = GetAccessToken(request.headers.get("Authorization", None))
-        tasks = Task.objects.filter(user=token.access_token["user_id"])
+        
+        if search is not None:
+            tasks = Task.objects.filter(user=token.access_token["user_id"]).filter(title__icontains=search)
+        else:
+            tasks = Task.objects.filter(user=token.access_token["user_id"])
+
         serializer = TaskSerializer(tasks, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
